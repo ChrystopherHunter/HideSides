@@ -3,6 +3,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 		<LangVersion>latest</LangVersion>
+		<AssemblyName>$(AssemblyName)-Workshop</AssemblyName>
 		<LaunchGame>false</LaunchGame>
 	</PropertyGroup>
 	<ItemGroup>

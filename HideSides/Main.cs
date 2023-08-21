@@ -3,6 +3,7 @@ using KitchenMods;
 using PreferenceSystem;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -11,10 +12,7 @@ namespace KitchenHideSides
 {
     internal class Main : BaseMod, IModSystem
     {
-        // GUID must be unique and is recommended to be in reverse domain name notation
-        // Mod Name is displayed to the player and listed in the mods menu
-        // Mod Version must follow semver notation e.g. "1.2.3"
-        public const string MOD_GUID = "HideSides.PlateUp.Chrystopher";
+        public const string MOD_GUID = "Chrystopher.PlateUp.HideSides";
         public const string MOD_NAME = "Hide Sides";
         public const string MOD_VERSION = "1.0.0";
         public const string MOD_AUTHOR = "Chrystopher";
@@ -26,25 +24,20 @@ namespace KitchenHideSides
 
         public Main() : base(MOD_GUID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, MOD_GAMEVERSION, Assembly.GetExecutingAssembly()) { }
 
-        private HashSet<string> RequiredModNames => new()
-        {
-            "KitchenLib",
-            "PreferenceSystem"
-        };
+        private static readonly IEnumerable<string> RequiredModNames = new HashSet<string>()
+            {
+                "KitchenLib",
+                "PreferenceSystem"
+            };
 
         protected sealed override void OnPostActivate(Mod mod)
         {
-            var missingModNames = new List<string>();
-            var loadedModNames = ModPreload.Mods.Select(n => n.Name.ToLowerInvariant());
-            
-            foreach (string name in RequiredModNames)
+            var loadedModNames = ModPreload.Mods.Select(n => n.Name).ToImmutableList();
+            var missingModNames = RequiredModNames.Except(loadedModNames, StringComparer.InvariantCultureIgnoreCase).ToImmutableList();
+
+            if (missingModNames.Any())
             {
-                if (loadedModNames.Contains(name.ToLowerInvariant())) continue;
-                missingModNames.Add(name);
-            }
-            if (missingModNames.Count > 0)
-            {
-                throw new ModPackLoadException($"Error! Missing dependencies. {MOD_NAME} requires that you subscribe to {(String.Join(", ", missingModNames))}.");
+                throw new ModPackLoadException($"Error! Missing dependencies. {MOD_NAME} requires that you subscribe to {(string.Join(", ", missingModNames))}.");
             }
 
             LogInfo($"{MOD_GUID} v{MOD_VERSION} in use!");
@@ -56,15 +49,14 @@ namespace KitchenHideSides
             PrefManager = new PreferenceSystemManager(MOD_GUID, MOD_NAME);
 
             PrefManager
-            .AddLabel("Hide Sides")
-            .AddInfo("Hide side item orders for customers seated at metal tables?")
-            .AddOption<bool>(
-                HIDE_SIDES_ENABLED,
-                false,
-                new bool[] { false, true },
-                new string[] { "Disabled", "Enabled" })
-            //.AddSpacer()
-            .AddInfo("This setting can be toggled at any time and will take effect for the next customer order.");
+                .AddLabel("Hide Sides")
+                .AddInfo("Hide side item orders for customers seated at metal tables?")
+                .AddOption<bool>(
+                    HIDE_SIDES_ENABLED,
+                    false,
+                    new bool[] { false, true },
+                    new string[] { "Disabled", "Enabled" })
+                .AddInfo("This setting can be toggled at any time and will take effect for the next customer order.");
 
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
