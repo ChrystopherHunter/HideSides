@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+		<LangVersion>latest</LangVersion>
+		<LaunchGame>false</LaunchGame>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Yariazen.PlateUp.ModBuildUtilities" Version="1.10.21" />
+	</ItemGroup>
+	<Target Name="LaunchGameAfterBuild" AfterTargets="AfterBuild" Condition="$(LaunchGame)=='true'">
+		<Exec Command="start &quot;C:\Program Files (x86)\Steam\steam.exe&quot; steam://rungameid/1599600" />
+	</Target>
+</Project>
