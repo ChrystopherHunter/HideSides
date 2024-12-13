@@ -2,11 +2,7 @@
 using KitchenMods;
 using PreferenceSystem;
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using System.Reflection;
-using UnityEngine;
 
 namespace KitchenHideSides
 {
@@ -14,7 +10,7 @@ namespace KitchenHideSides
     {
         public const string MOD_GUID = "Chrystopher.PlateUp.HideSides";
         public const string MOD_NAME = "Hide Sides";
-        public const string MOD_VERSION = "1.0.0";
+        public const string MOD_VERSION = "1.0.1";
         public const string MOD_AUTHOR = "Chrystopher";
         public const string MOD_GAMEVERSION = ">=1.1.3";
 
@@ -24,22 +20,8 @@ namespace KitchenHideSides
 
         public Main() : base(MOD_GUID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, MOD_GAMEVERSION, Assembly.GetExecutingAssembly()) { }
 
-        private static readonly IEnumerable<string> RequiredModNames = new HashSet<string>()
-            {
-                "KitchenLib",
-                "PreferenceSystem"
-            };
-
         protected sealed override void OnPostActivate(Mod mod)
         {
-            var loadedModNames = ModPreload.Mods.Select(n => n.Name).ToImmutableList();
-            var missingModNames = RequiredModNames.Except(loadedModNames, StringComparer.InvariantCultureIgnoreCase).ToImmutableList();
-
-            if (missingModNames.Any())
-            {
-                throw new ModPackLoadException($"Error! Missing dependencies. {MOD_NAME} requires that you subscribe to {(string.Join(", ", missingModNames))}.");
-            }
-
             LogInfo($"{MOD_GUID} v{MOD_VERSION} in use!");
             CreatePreferences();
         }

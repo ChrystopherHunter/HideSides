@@ -7,7 +7,7 @@
 		<LaunchGame>false</LaunchGame>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Yariazen.PlateUp.ModBuildUtilities" Version="1.10.21" />
+		<PackageReference Include="Yariazen.PlateUp.ModBuildUtilities" Version="1.13.0" />
 	</ItemGroup>
 	<Target Name="LaunchGameAfterBuild" AfterTargets="AfterBuild" Condition="$(LaunchGame)=='true'">
 		<Exec Command="start &quot;C:\Program Files (x86)\Steam\steam.exe&quot; steam://rungameid/1599600" />
