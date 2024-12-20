@@ -27,11 +27,15 @@ namespace KitchenHideSides
             {
                 var settings = EntityManager.GetComponentData<CCustomerSettings>(group);
 
-                settings.Ordering.SidesModifier = settings.Ordering.SidesOptional && Main.PrefManager.Get<bool>(Main.HIDE_SIDES_ENABLED)
+                var newSidesModifier = settings.Ordering.SidesOptional && Main.PrefManager.Get<bool>(Main.HIDE_SIDES_ENABLED)
                     ? 0f
-                    : OrderingValues.Default.SidesModifier;
+                    : settings.Ordering.SidesModifier;
 
-                EntityManager.SetComponentData<CCustomerSettings>(group, settings);
+                if (settings.Ordering.SidesModifier != newSidesModifier)
+                {
+                    settings.Ordering.SidesModifier = newSidesModifier;
+                    EntityManager.SetComponentData<CCustomerSettings>(group, settings);
+                }
             }
         }
     }
