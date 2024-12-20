@@ -1,13 +1,10 @@
 ﻿using Kitchen;
-using KitchenData;
 using KitchenMods;
 using Unity.Collections;
 using Unity.Entities;
 
 namespace KitchenHideSides
 {
-    [UpdateAfter(typeof(GroupHandleChoosingOrder))]
-    [UpdateBefore(typeof(GroupHandleAwaitingOrder))]
     internal class HideSides : GenericSystemBase, IModSystem
     {
         private EntityQuery queryCustomerSettings;
