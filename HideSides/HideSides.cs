@@ -5,7 +5,7 @@ using Unity.Entities;
 
 namespace KitchenHideSides
 {
-    internal class HideSides : GenericSystemBase, IModSystem
+    internal class HideSides : DaySystem, IModSystem
     {
         private EntityQuery queryCustomerSettings;
 

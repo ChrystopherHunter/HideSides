@@ -1,30 +1,29 @@
-﻿using KitchenLib;
-using KitchenMods;
+﻿using KitchenMods;
 using PreferenceSystem;
 using System;
-using System.Reflection;
 
 namespace KitchenHideSides
 {
-    internal class Main : BaseMod, IModSystem
+    internal class Main : IModInitializer
     {
         public const string MOD_GUID = "Chrystopher.PlateUp.HideSides";
         public const string MOD_NAME = "Hide Sides";
-        public const string MOD_VERSION = "1.0.1";
+        public const string MOD_VERSION = "1.0.2";
         public const string MOD_AUTHOR = "Chrystopher";
-        public const string MOD_GAMEVERSION = ">=1.1.3";
 
         internal static PreferenceSystemManager PrefManager;
 
         internal const string HIDE_SIDES_ENABLED = "HideSidesEnabled";
 
-        public Main() : base(MOD_GUID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, MOD_GAMEVERSION, Assembly.GetExecutingAssembly()) { }
-
-        protected sealed override void OnPostActivate(Mod mod)
+        public void PostActivate(Mod mod)
         {
             LogInfo($"{MOD_GUID} v{MOD_VERSION} in use!");
             CreatePreferences();
         }
+
+        public void PreInject() { }
+
+        public void PostInject() { }
 
         private static void CreatePreferences()
         {
@@ -36,19 +35,19 @@ namespace KitchenHideSides
                 .AddOption<bool>(
                     HIDE_SIDES_ENABLED,
                     false,
-                    new bool[] { false, true },
-                    new string[] { "Disabled", "Enabled" })
+                    [false, true],
+                    ["Disabled", "Enabled"])
                 .AddInfo("This setting can be toggled at any time and will take effect for the next customer order.");
 
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
         }
 
-        internal static void LogInfo(string _log) { Debug.Log($"{DateTime.Now} [{MOD_NAME}] " + _log); }
-        internal static void LogWarning(string _log) { Debug.LogWarning($"{DateTime.Now} [{MOD_NAME}] " + _log); }
-        internal static void LogError(string _log) { Debug.LogError($"{DateTime.Now} [{MOD_NAME}] " + _log); }
-        internal static void LogInfo(object _log) { LogInfo(_log.ToString()); }
-        internal static void LogWarning(object _log) { LogWarning(_log.ToString()); }
-        internal static void LogError(object _log) { LogError(_log.ToString()); }
+        internal static void LogInfo(string log) { Debug.Log($"{DateTime.Now} [{MOD_NAME}] " + log); }
+        internal static void LogWarning(string log) { Debug.LogWarning($"{DateTime.Now} [{MOD_NAME}] " + log); }
+        internal static void LogError(string log) { Debug.LogError($"{DateTime.Now} [{MOD_NAME}] " + log); }
+        internal static void LogInfo(object log) { LogInfo(log.ToString()); }
+        internal static void LogWarning(object log) { LogWarning(log.ToString()); }
+        internal static void LogError(object log) { LogError(log.ToString()); }
     }
 }
