@@ -1,6 +1,5 @@
 ﻿using KitchenMods;
 using PreferenceSystem;
-using System;
 
 namespace KitchenHideSides
 {
@@ -8,7 +7,7 @@ namespace KitchenHideSides
     {
         public const string MOD_GUID = "Chrystopher.PlateUp.HideSides";
         public const string MOD_NAME = "Hide Sides";
-        public const string MOD_VERSION = "1.0.2";
+        public const string MOD_VERSION = "1.0.3";
         public const string MOD_AUTHOR = "Chrystopher";
 
         internal static PreferenceSystemManager PrefManager;
@@ -17,7 +16,7 @@ namespace KitchenHideSides
 
         public void PostActivate(Mod mod)
         {
-            LogInfo($"{MOD_GUID} v{MOD_VERSION} in use!");
+            Logger.LogInfo($"{MOD_GUID} v{MOD_VERSION} in use!");
             CreatePreferences();
         }
 
@@ -42,12 +41,5 @@ namespace KitchenHideSides
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
         }
-
-        internal static void LogInfo(string log) { Debug.Log($"{DateTime.Now} [{MOD_NAME}] " + log); }
-        internal static void LogWarning(string log) { Debug.LogWarning($"{DateTime.Now} [{MOD_NAME}] " + log); }
-        internal static void LogError(string log) { Debug.LogError($"{DateTime.Now} [{MOD_NAME}] " + log); }
-        internal static void LogInfo(object log) { LogInfo(log.ToString()); }
-        internal static void LogWarning(object log) { LogWarning(log.ToString()); }
-        internal static void LogError(object log) { LogError(log.ToString()); }
     }
 }

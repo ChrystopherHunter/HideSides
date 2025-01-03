@@ -12,4 +12,12 @@
 	<Target Name="LaunchGameAfterBuild" AfterTargets="AfterBuild" Condition="$(LaunchGame)=='true'">
 		<Exec Command="start &quot;C:\Program Files (x86)\Steam\steam.exe&quot; steam://rungameid/1599600" />
 	</Target>
+	<Target Name="CustomBlacklist" BeforeTargets="T_BlacklistReferences">
+		<ItemGroup>
+			<Blacklist Include="$(AssemblyReferencePath)\System*.dll" />
+		</ItemGroup>
+	</Target>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<EnableAutoPDB>true</EnableAutoPDB>
+	</PropertyGroup>
 </Project>

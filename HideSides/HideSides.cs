@@ -31,7 +31,7 @@ namespace KitchenHideSides
                 if (settings.Ordering.SidesModifier != newSidesModifier)
                 {
                     settings.Ordering.SidesModifier = newSidesModifier;
-                    EntityManager.SetComponentData<CCustomerSettings>(group, settings);
+                    EntityManager.SetComponentData(group, settings);
                 }
             }
         }
