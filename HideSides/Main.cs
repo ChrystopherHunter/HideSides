@@ -1,7 +1,7 @@
 ﻿using KitchenMods;
 using PreferenceSystem;
 
-namespace KitchenHideSides
+namespace Kitchen.HideSides
 {
     internal class Main : IModInitializer
     {
@@ -31,7 +31,7 @@ namespace KitchenHideSides
             PrefManager
                 .AddLabel("Hide Sides")
                 .AddInfo("Hide side item orders for customers seated at metal tables?")
-                .AddOption<bool>(
+                .AddOption(
                     HIDE_SIDES_ENABLED,
                     false,
                     [false, true],

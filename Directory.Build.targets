@@ -1,0 +1,68 @@
+<Project>
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<Configurations>Debug;Release;Launch</Configurations>
+		<RootNamespace>Kitchen.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<EnableModDeployLocal>false</EnableModDeployLocal>
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+		<NoWarn>CS0436</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup>
+		<SteamExecutable>C:\Program Files (x86)\Steam\steam.exe</SteamExecutable>
+		<SteamPath>C:\Program Files (x86)\Steam\steamapps</SteamPath>
+		<PlateUpAssemblyPath>$(SteamPath)\common\PlateUp\PlateUp\PlateUp_Data\Managed</PlateUpAssemblyPath>
+		<WorkshopPath>$(SteamPath)\workshop\content\1599600</WorkshopPath>
+		<ModsPath>$(SteamPath)\common\PlateUp\PlateUp\Mods</ModsPath>
+		<CurrentModPath>$(ModsPath)\$(MSBuildProjectName)\content</CurrentModPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<Blacklist Include="$(PlateUpAssemblyPath)\mscorlib.dll" />
+		<Blacklist Include="$(PlateUpAssemblyPath)\Facepunch.Steamworks.Win64.dll" />
+		<Blacklist Include="$(PlateUpAssemblyPath)\netstandard.dll" />
+		<Blacklist Include="$(PlateUpAssemblyPath)\Microsoft*.dll" />
+		<Blacklist Include="$(PlateUpAssemblyPath)\System*.dll" />
+		<Blacklist Include="$(PlateUpAssemblyPath)\Mono*.dll" />
+		<Blacklist Include="$(PlateUpAssemblyPath)\UniverseLib.Mono.dll" />
+		<Blacklist Include="$(PlateUpAssemblyPath)\0Harmony.dll" />
+		<Blacklist Include="$(WorkshopPath)\**\Mono*.dll" />
+		<Blacklist Include="$(WorkshopPath)\**\UniverseLib.Mono.dll" />
+		<Blacklist Include="$(WorkshopPath)\**\0Harmony.dll" />
+		<Blacklist Include="$(ModsPath)\**\Mono*.dll" />
+		<Blacklist Include="$(ModsPath)\**\UniverseLib.Mono.dll" />
+		<Blacklist Include="$(ModsPath)\**\0Harmony.dll" />
+		<Blacklist Include="$(CurrentModPath)\**\*" />
+		<Blacklist Remove="$(WorkshopPath)\2898033283\0Harmony.dll" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="$(PlateUpAssemblyPath)\*.dll" Exclude="@(Blacklist)">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="$(WorkshopPath)\**\*.dll" Exclude="@(Blacklist)">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="$(ModsPath)\**\*.dll" Exclude="@(Blacklist)">
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+	<Target Name="DeployMod" AfterTargets="AfterBuild" DependsOnTargets="AfterBuild">
+		<ItemGroup>
+			<WorkshopFiles Include="$(CurrentModPath)\*" />
+		</ItemGroup>
+		<PropertyGroup>
+			<AssemblyFile>$(OutDir)/$(AssemblyName).dll</AssemblyFile>
+			<DebugFile>$(OutDir)/$(AssemblyName).pdb</DebugFile>
+			<AssetBundleFile>$(MSBuildThisFileDirectory)..\PlateUp\AssetBundles\$(MSBuildProjectName.ToLower()).assets</AssetBundleFile>
+		</PropertyGroup>
+		<Delete Files="@(WorkshopFiles)" />
+		<Copy SourceFiles="$(AssemblyFile)"
+		      DestinationFolder="$(CurrentModPath)" />
+		<Copy SourceFiles="$(DebugFile)"
+			  DestinationFolder="$(CurrentModPath)"
+			  Condition="'$(Configuration)'!='Release'" />
+		<Copy SourceFiles="$(AssetBundleFile)"
+			  DestinationFolder="$(CurrentModPath)"
+			  Condition="Exists('$(AssetBundleFile)')" />
+		<Exec Command="start &quot;$(SteamExecutable)&quot; steam://rungameid/1599600"
+			  Condition="'$(Configuration)'=='Launch'" />
+	</Target>
+</Project>

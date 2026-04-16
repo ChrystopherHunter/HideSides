@@ -1,9 +1,8 @@
-﻿using Kitchen;
-using KitchenMods;
+﻿using KitchenMods;
 using Unity.Collections;
 using Unity.Entities;
 
-namespace KitchenHideSides
+namespace Kitchen.HideSides
 {
     internal class HideSides : DaySystem, IModSystem
     {

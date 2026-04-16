@@ -1,6 +1,7 @@
 ﻿using System;
+using UnityEngine;
 
-namespace KitchenHideSides
+namespace Kitchen.HideSides
 {
     internal class Logger
     {

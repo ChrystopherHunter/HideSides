@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HideSides", "HideSides\Hide
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BFACEF2E-40FB-48BB-A539-4C2A7F26CE0C}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.targets = Directory.Build.targets
 		README.md = README.md
 	EndProjectSection
 EndProject
